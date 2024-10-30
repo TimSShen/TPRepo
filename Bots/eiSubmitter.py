@@ -48,7 +48,7 @@ chromeOptions.add_argument("--window-size=1920,1080")
 chromeOptions.add_argument('--ignore-certificate-errors')
 chromeOptions.add_argument('--allow-running-insecure-content')
 chromeOptions.add_argument('--no-sandbox')
-#This portion generates fake headers and user agent for use with headless chrome. Bank bot detection will block headless chrome otherwise.
+#This portion generates fake headers and user agent for use with headless chrome. Bot detection will block headless chrome otherwise.
 header = Headers(
     browser="chrome",  # Generate only Chrome UA
     os="win",  # Generate only Windows platform
