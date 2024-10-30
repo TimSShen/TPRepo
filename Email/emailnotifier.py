@@ -16,11 +16,10 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly','https://www.googleap
 notify = Notify() 
 
 def readEmails():
-    '''This generates credentials from a client secrets file downloaded from the Gcloud platform associated with my google account.
+    '''This generates credentials from a client secrets file downloaded from the Gcloud platform associated with my google account. That secrets file is not part of public repo.
     Uses those credentials to request a service object that allow API calls to the gmail API.
     Finds all unread emails that are from the email address of interest and finds the search words in them. Returns true if any email contains all the search words.
-    CAVEAT: Google revokes its token refresh access every 7 days if the program is denoted as in "test". I have to put it in production if I want the token to work in the
-    future.
+    CAVEAT: Google revokes its token refresh access every 7 days if the program is denoted as in "test". Must put in production if token is to work continually.
     '''
     '''Initial Global Variables
     searchPhrases = Phrases we are trying to find in the email to send us a notification about
