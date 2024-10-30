@@ -94,8 +94,8 @@ try:
     #TD Login Button
     findElem(By.CSS_SELECTOR, 'button.td-button-secondary').click()
     
-    '''This if statement is here because it's possible TD has already validated your SMS code on their end so they don't send another two factor auth.
-    If you don't need to go through the two factor auth from TD, then you'll be sent directly to two factor auth for Service Canada.'''
+    '''This if statement is here because it's possible bank has already validated your SMS code on their end so they don't send another two factor auth.
+    If you don't need to go through the two factor auth from bank, then you'll be sent directly to two factor auth for Service Canada.'''
     #TD Two Factor Auth Send SMS Button
     TDAuthElem = findElem(By.XPATH, '//button[text()="Text me "]')
     #If the TD send SMS button is found then continue with TD authentication. If not, then continue to Service Canada. 
@@ -113,7 +113,7 @@ try:
         time.sleep(1)
         findElem(By.XPATH, '//*[@id="mat-dialog-1"]/core-otp-challenge-modal/span/div[2]/form/button').click()
     else: 
-        print(f'TD did not request two factor auth or possibly blocked bot. Continuing to Service Canada portion.')
+        print(f'Bank did not request two factor auth or possibly blocked bot. Continuing to Service Canada portion.')
     
     #Service Canada Two Factor Auth Send SMS Button
     findElem(By.NAME, 'ctl00$ctl00$MainContent$ContentPlaceHolder$btnSendOTP').click()
@@ -135,7 +135,7 @@ try:
     findElem(By.PARTIAL_LINK_TEXT, 'payments').click()
     #Find all Service Canada row text elements that are in tableID 'CurrentData' under header 'Report Covering Period. Returns a list.'
     tableElems = findElem(By.XPATH, '//table[@id="CurrentData"]/tbody/tr/td[count(//table/tbody/tr/th[.=" Report Covering Period "]/preceding-sibling::th)+1]', multi = True)   
-    #Compare each date in Service Canada table list to set containing all dates in EISubmissions.csv. This set was originally extracted at beginning of program from same file.
+    #Compare each date in Service Canada table list to set containing all dates in EISubmissions.csv. File not included in public repo. This set was originally extracted at beginning of program from same file.
     for row in tableElems:
         #print(f'Row Count: {count}')            
         if row.text not in set(EIDates):
@@ -145,7 +145,7 @@ try:
         count += 1
     #Write new dates to csv file.
     if newDates:
-        with open('C:\\Users\\shent\\OneDrive\\Desktop\\Coding Stuff\\Python Stuff\\Projects\\Bots\\EISubmissions.csv','w',newline="" ) as csvfile:
+        with open('%APPDATA%/EISubmissions.csv','w',newline="" ) as csvfile:
             print('Writing Dates to File')
             EIFile = csv.writer(csvfile)
             for row in EIDates:
@@ -177,8 +177,8 @@ try:
             driver.execute_script("window.history.go(-1)")
 
         #Send email with EI payment information if new dates exist.
-        subject = f'PREGNANCY & PARENTAL TOP UPS {os.environ.get('COTName')} {os.environ.get('COTENum')}'
-        body = 'Hi there please see below statements for processing\n\nThanks,\n\nTim.'
+        subject = f'TOP UPS {os.environ.get('COTName')} {os.environ.get('COTENum')}'
+        body = 'Hi there please see below statements for processing\n\nThanks,\n\nT.'
         email =  gmailObject(os.environ.get('GU'), os.environ.get('GP'), os.environ.get('GU'), os.environ.get('COTSubE'), subject, body, files = SSFilenames) 
         email.send()
         notify.send(f'EI Submission Email: Sent {len(newDates)} new dates')
